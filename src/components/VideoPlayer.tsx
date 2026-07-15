@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { Play, Pause, SkipForward, Timer, AlertCircle } from 'lucide-react';
 import type { RoutineStep } from '../types';
+import { EXECUTION_RULES, getDurationDisplay } from '../executionRules';
 
 interface VideoPlayerProps {
   steps: RoutineStep[];
@@ -16,15 +17,18 @@ export function VideoPlayer({
   onStepChange,
 }: VideoPlayerProps) {
   const currentStep = steps[currentStepIndex];
+  const currentDuration = EXECUTION_RULES[currentStep?.executionType]?.durationSeconds ?? 60;
+  const currentDisplay = currentStep ? getDurationDisplay(currentStep.executionType) : '';
   const [timerRunning, setTimerRunning] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(currentStep?.durationSeconds || 0);
+  const [timeLeft, setTimeLeft] = useState(currentDuration);
   const [timerFinished, setTimerFinished] = useState(false);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   // 切换步骤时重置计时器
   useEffect(() => {
     if (currentStep) {
-      setTimeLeft(currentStep.durationSeconds);
+      const dur = EXECUTION_RULES[currentStep.executionType]?.durationSeconds ?? 60;
+      setTimeLeft(dur);
       setTimerRunning(false);
       setTimerFinished(false);
     }
@@ -52,7 +56,8 @@ export function VideoPlayer({
   const toggleTimer = useCallback(() => {
     if (timerFinished) {
       // 重新开始
-      setTimeLeft(currentStep?.durationSeconds || 0);
+      const dur = EXECUTION_RULES[currentStep?.executionType]?.durationSeconds ?? 60;
+      setTimeLeft(dur);
       setTimerFinished(false);
       setTimerRunning(true);
     } else {
@@ -87,7 +92,9 @@ export function VideoPlayer({
           <video
             src={currentStep.videoUrl}
             className="w-full h-full object-contain"
-            controls
+            autoPlay
+            loop
+            muted
             playsInline
             preload="metadata"
           />
@@ -157,7 +164,7 @@ export function VideoPlayer({
           </span>
           <div>
             <h3 className="font-bold text-slate-800 text-base">{currentStep?.title}</h3>
-            <p className="text-xs text-slate-500">{currentStep?.category} · {currentStep?.duration}</p>
+            <p className="text-xs text-slate-500">{currentStep?.category} · {currentDisplay}</p>
           </div>
         </div>
         <span className="text-xs text-slate-400 font-medium">

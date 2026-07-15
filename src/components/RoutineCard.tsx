@@ -1,5 +1,6 @@
 import { CheckCircle2, PlayCircle, Circle } from 'lucide-react';
 import type { RoutineStep } from '../types';
+import { getDurationDisplay } from '../executionRules';
 
 interface RoutineCardProps {
   steps: RoutineStep[];
@@ -65,7 +66,7 @@ export function RoutineCard({ steps, currentStepIndex, onStepClick }: RoutineCar
                       : 'bg-slate-200 text-slate-600'
                   }`}
                 >
-                  {step.duration}
+                  {getDurationDisplay(step.executionType)}
                 </span>
               </div>
               <p

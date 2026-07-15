@@ -12,11 +12,14 @@ if (!fs.existsSync(DATA_DIR)) {
   fs.mkdirSync(DATA_DIR, { recursive: true });
 }
 
-// 删除旧数据库（如果存在）
-if (fs.existsSync(DB_PATH)) {
-  fs.unlinkSync(DB_PATH);
-  console.log('🗑️  已删除旧数据库');
+// 删除旧数据库及 WAL/SHM 文件（如果存在）
+for (const suffix of ['', '-wal', '-shm']) {
+  const p = DB_PATH + suffix;
+  if (fs.existsSync(p)) {
+    fs.unlinkSync(p);
+  }
 }
+console.log('🗑️  已清理旧数据库文件');
 
 // 创建新数据库
 const db = new Database(DB_PATH);

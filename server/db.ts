@@ -53,8 +53,7 @@ export function getRoutine(sportSlug: string, ageGroup: string, type: 'warmup' |
       e.name as title,
       e.category,
       e.default_desc as description,
-      COALESCE(wp.duration_display, (e.default_duration_seconds || '秒')) as duration,
-      COALESCE(wp.duration_seconds, e.default_duration_seconds) as durationSeconds,
+      e.execution_type as executionType,
       e.video_path as videoPath,
       CASE WHEN e.video_path IS NOT NULL THEN '/videos/' || e.video_path ELSE NULL END as videoUrl
     FROM ${tableName} wp

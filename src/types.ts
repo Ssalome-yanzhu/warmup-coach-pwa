@@ -24,8 +24,7 @@ export interface RoutineStep {
   sortOrder: number;
   title: string;
   description: string;
-  duration: string;
-  durationSeconds: number;
+  executionType: string;
   videoUrl: string;
   category: string;
 }

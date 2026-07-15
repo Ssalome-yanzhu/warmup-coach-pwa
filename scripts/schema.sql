@@ -21,6 +21,7 @@ CREATE TABLE IF NOT EXISTS exercises (
   default_desc TEXT NOT NULL,         -- 默认动作描述
   video_path TEXT,                    -- 视频文件路径，如 "L_肩部绕环.mp4"
   default_duration_seconds INTEGER NOT NULL DEFAULT 60,  -- 默认时长（秒）
+  execution_type TEXT NOT NULL DEFAULT '动态热身',        -- 执行类型，决定时长/次数规则
   tips TEXT,                           -- 动作要点
   purpose TEXT                         -- 训练目的标签，逗号分隔，如 "提高心率, 激活下肢"
 );

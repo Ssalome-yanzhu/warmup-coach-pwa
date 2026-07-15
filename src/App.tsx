@@ -5,6 +5,7 @@ import type { Sport, AgeGroup, RoutineResponse, RoutineType } from './types';
 import { SportSelect } from './components/SportSelect';
 import { RoutineCard } from './components/RoutineCard';
 import { VideoPlayer } from './components/VideoPlayer';
+import { getRulesSummary } from './executionRules';
 import heroImage from './assets/images/kids_sports_header_1781415711864.jpg';
 import cartoonKidImage from './assets/images/cartoon_kid_stretching_1781416479521.jpg';
 
@@ -308,6 +309,24 @@ export default function App() {
 
               {/* 动作列表 */}
               <div className="w-full lg:w-[45%] flex-1 min-h-0">
+                {/* 执行规则说明 */}
+                {(() => {
+                  const rules = getRulesSummary(routine.steps.map(s => s.executionType));
+                  return rules.length > 0 ? (
+                    <div className="mb-2 bg-white/70 backdrop-blur-sm border border-slate-200 rounded-xl px-3 py-2">
+                      <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wide mb-1">
+                        📋 动作执行规则
+                      </p>
+                      <div className="flex flex-wrap gap-1.5">
+                        {rules.map(r => (
+                          <span key={r.type} className="inline-flex items-center gap-1 text-[10px] font-medium text-slate-600 bg-slate-100 rounded-full px-2 py-0.5">
+                            {r.label}：<strong className="text-orange-500">{r.display}</strong>
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  ) : null;
+                })()}
                 <div className="bg-gradient-to-br from-orange-50 to-amber-50 rounded-2xl p-3 shadow-sm border border-white/50 h-full max-h-[500px] lg:max-h-none overflow-hidden flex flex-col">
                   <div className="flex items-center gap-2 mb-2 px-1 flex-shrink-0">
                     <div className="p-1.5 rounded-lg bg-orange-500 text-white shadow-sm">
