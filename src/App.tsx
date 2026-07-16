@@ -36,8 +36,8 @@ export default function App() {
     async function fetchOptions() {
       try {
         const [sportsRes, ageRes] = await Promise.all([
-          fetch('/api/sports'),
-          fetch('/api/age-groups'),
+          fetch('/api/sports.json'),
+          fetch('/api/age-groups.json'),
         ]);
         const sportsData = await sportsRes.json();
         const ageData = await ageRes.json();
@@ -60,11 +60,12 @@ export default function App() {
 
       try {
         const res = await fetch(
-          `/api/routine?sport=${sportSlug}&age=${age}&type=${type}`
+          `/api/routines/${sportSlug}_${age}_${type}.json`
         );
-        if (!res.ok) {
-          const errData = await res.json();
-          throw new Error(errData.error || '获取方案失败');
+        // 处理 404 或 SPA fallback（返回 HTML 而非 JSON）
+        const contentType = res.headers.get('content-type') || '';
+        if (!res.ok || !contentType.includes('application/json')) {
+          throw new Error(`暂无「${sportSlug}」的${type === 'warmup' ? '热身' : '拉伸'}方案`);
         }
         const data = await res.json();
         setRoutine(data);

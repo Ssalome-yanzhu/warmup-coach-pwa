@@ -1,0 +1,22 @@
+{
+  "name": "热身魔法师",
+  "short_name": "热身魔法师",
+  "description": "儿童热身与拉伸指导 — 选运动、选年龄，获取专属热身和拉伸指导，跟着视频一起练！",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#f8fafc",
+  "theme_color": "#f97316",
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
